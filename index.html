@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Ekaterina Perova — QA Engineer. Backend, API & Data Testing.">
+  <title>Ekaterina Perova — QA Engineer</title>
+  <style>
+    :root{
+      --text:#294b86;
+      --text-soft:#5f739a;
+      --accent:#3d6fc6;
+      --accent-2:#7898d8;
+      --pink:#efd2db;
+      --line:rgba(41,75,134,.14);
+      --shadow:0 20px 55px rgba(106,88,103,.14);
+      --max:1160px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-width:0;
+      overflow-x:hidden;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      line-height:1.65;
+      background:
+        radial-gradient(circle at 10% 12%,rgba(255,255,255,.58),transparent 22%),
+        radial-gradient(circle at 86% 10%,rgba(91,131,205,.22),transparent 24%),
+        radial-gradient(circle at 24% 66%,rgba(232,173,194,.24),transparent 22%),
+        radial-gradient(circle at 78% 76%,rgba(167,191,236,.18),transparent 21%),
+        linear-gradient(180deg,#f3d8df 0%,#efd2db 44%,#f7e8ed 100%);
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(var(--max),calc(100% - 36px));margin:auto}
+
+    /* CSS-only language toggle */
+    .lang-radio{
+      position:fixed;
+      left:-9999px;
+      opacity:0;
+      pointer-events:none;
+    }
+    .lang-en{display:none}
+    #lang-en:checked ~ .site .lang-ru{display:none}
+    #lang-en:checked ~ .site .lang-en{display:inline}
+    #lang-ru:checked ~ .site .lang-ru{display:inline}
+    #lang-ru:checked ~ .site .lang-en{display:none}
+
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:100;
+      padding-top:env(safe-area-inset-top);
+      background:rgba(246,232,235,.76);
+      -webkit-backdrop-filter:blur(16px);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(41,75,134,.10);
+    }
+    .nav-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      font-weight:800;
+      letter-spacing:.04em;
+      white-space:nowrap;
+    }
+    .brand span{color:var(--accent)}
+    .header-controls{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .lang-switch{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:4px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.60);
+      box-shadow:0 8px 18px rgba(93,76,92,.06);
+    }
+    .lang-switch label{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:44px;
+      height:36px;
+      padding:0 12px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:13px;
+      color:var(--text-soft);
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+      user-select:none;
+    }
+    #lang-ru:checked ~ .site label[for="lang-ru"],
+    #lang-en:checked ~ .site label[for="lang-en"]{
+      color:#fff;
+      background:linear-gradient(135deg,#3d6fc6,#678bd2);
+      box-shadow:0 8px 16px rgba(61,111,198,.16);
+    }
+
+    /* Native no-JS burger */
+    .mobile-menu{position:relative;z-index:120;margin:0}
+    .mobile-menu summary{
+      list-style:none;
+      width:44px;
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:4px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.62);
+      box-shadow:0 8px 18px rgba(93,76,92,.06);
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+    }
+    .mobile-menu summary::-webkit-details-marker{display:none}
+    .mobile-menu summary span{
+      width:18px;height:2px;
+      border-radius:2px;
+      background:var(--text);
+      transition:.2s ease;
+    }
+    .mobile-menu[open] summary span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .mobile-menu[open] summary span:nth-child(2){opacity:0}
+    .mobile-menu[open] summary span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    .mobile-nav{
+      position:absolute;
+      top:52px;
+      right:0;
+      width:min(260px,calc(100vw - 28px));
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:rgba(247,235,239,.98);
+      box-shadow:0 16px 38px rgba(75,65,82,.16);
+    }
+    .mobile-nav a{
+      display:block;
+      padding:11px 12px;
+      border-radius:12px;
+    }
+    .mobile-nav a:active{background:rgba(61,111,198,.08)}
+
+    /* Decorative paint */
+    .paint{
+      position:absolute;
+      z-index:0;
+      pointer-events:none;
+      opacity:.82;
+      mix-blend-mode:multiply;
+    }
+    .paint svg{display:block;width:100%;height:auto}
+    .paint.p1{width:430px;right:-60px;top:85px;transform:rotate(7deg)}
+    .paint.p2{width:400px;left:-85px;top:520px;transform:rotate(-14deg)}
+    .paint.p3{width:350px;right:3%;top:1000px;transform:rotate(10deg);opacity:.70}
+    .paint.p4{width:410px;left:0;bottom:120px;transform:rotate(-10deg);opacity:.68}
+
+    .hero{
+      position:relative;
+      padding:92px 0 62px;
+    }
+    .hero-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.18fr .82fr;
+      gap:42px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:9px 13px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.50);
+      font-size:14px;
+      color:var(--accent);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 6px rgba(61,111,198,.10);
+    }
+    h1{
+      margin:22px 0 20px;
+      font-size:clamp(44px,6.5vw,80px);
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+    h1 .soft{
+      display:block;
+      margin-top:8px;
+      color:var(--accent);
+    }
+    .lead{
+      max-width:760px;
+      font-size:20px;
+      color:var(--text-soft);
+    }
+    .cta{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:28px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:50px;
+      padding:0 18px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      font-weight:700;
+    }
+    .btn.primary{
+      color:#fff;
+      border-color:transparent;
+      background:linear-gradient(135deg,#3d6fc6,#5e84cf);
+      box-shadow:0 12px 26px rgba(61,111,198,.18);
+    }
+    .btn.secondary{background:rgba(255,255,255,.54)}
+
+    .hero-card,.card,.job,.contact{
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.64),rgba(255,255,255,.38)),
+        radial-gradient(circle at 85% 18%,rgba(104,144,214,.07),transparent 30%);
+      border:1px solid rgba(41,75,134,.12);
+      box-shadow:var(--shadow);
+      -webkit-backdrop-filter:blur(6px);
+      backdrop-filter:blur(6px);
+    }
+    .hero-card{border-radius:34px;padding:28px}
+    .metric{padding:16px 0;border-bottom:1px solid rgba(41,75,134,.10)}
+    .metric:last-child{border-bottom:0}
+    .metric strong{display:block;font-size:29px;line-height:1.15}
+    .metric span{color:var(--text-soft)}
+
+    section{position:relative;padding:60px 0}
+    .section-head{
+      position:relative;z-index:1;
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:end;
+      margin-bottom:26px;
+    }
+    .section-head h2{margin:0;font-size:34px;letter-spacing:-.03em}
+    .section-head p{margin:0;max-width:650px;color:var(--text-soft)}
+    .cards{
+      position:relative;z-index:1;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .card{padding:24px;border-radius:28px}
+    .tag{
+      display:inline-block;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(61,111,198,.10);
+      color:var(--accent);
+      font-size:12px;
+      font-weight:800;
+    }
+    .card h3{margin:10px 0 8px;font-size:19px}
+    .card p{margin:0;color:var(--text-soft)}
+
+    .timeline{position:relative;z-index:1;display:grid;gap:18px}
+    .job{
+      display:grid;
+      grid-template-columns:220px 1fr;
+      gap:28px;
+      padding:24px;
+      border-radius:28px;
+    }
+    .when{color:var(--accent);font-weight:800;font-size:14px}
+    .company{font-weight:800;font-size:19px}
+    .job h3{margin:0 0 8px;font-size:22px}
+    .job ul{margin:14px 0 0;padding-left:18px;color:var(--text-soft)}
+    .job li+li{margin-top:8px}
+
+    .skills{
+      position:relative;z-index:1;
+      display:flex;flex-wrap:wrap;gap:10px;
+    }
+    .skill{
+      padding:10px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.58);
+      border:1px solid rgba(41,75,134,.10);
+      font-size:14px;
+    }
+    .contact{
+      position:relative;z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:22px;
+      padding:34px;
+      border-radius:30px;
+    }
+    .contact h2{margin:0 0 8px;font-size:32px}
+    .contact p{margin:0;color:var(--text-soft)}
+    footer{
+      position:relative;z-index:1;
+      padding:28px 0 calc(48px + env(safe-area-inset-bottom));
+      color:var(--text-soft);
+      font-size:14px;
+    }
+
+    @media(max-width:1100px){
+      .wrap{width:min(100% - 40px,980px)}
+      .hero{padding:78px 0 52px}
+      .hero-grid{grid-template-columns:1.05fr .95fr;gap:28px}
+      h1{font-size:clamp(42px,6vw,68px)}
+      .job{grid-template-columns:185px 1fr;gap:20px}
+    }
+
+    @media(max-width:900px){
+      .wrap{width:min(100% - 34px,760px)}
+      .hero{padding:62px 0 46px}
+      .hero-grid{grid-template-columns:1fr;gap:24px}
+      .hero-card{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:0 24px;
+      }
+      .cards{grid-template-columns:1fr 1fr}
+      .cards .card:last-child{grid-column:1/-1}
+      .job{grid-template-columns:1fr;gap:8px}
+      .section-head,.contact{align-items:flex-start}
+    }
+
+    @media(max-width:720px){
+      .wrap{width:calc(100% - 28px)}
+      .nav-inner{min-height:68px;padding:10px 0}
+      .brand{font-size:15px}
+      .header-controls{gap:10px}
+      .lang-switch{padding:3px}
+      .lang-switch label{min-width:41px;height:34px;padding:0 9px;font-size:12px}
+      .mobile-menu summary{width:42px;height:42px}
+
+      .hero{padding:46px 0 34px}
+      .eyebrow{font-size:12px;padding:8px 11px}
+      h1{font-size:clamp(38px,12vw,54px);margin:18px 0 16px}
+      .lead{font-size:17px}
+      .btn{min-height:47px;font-size:14px;padding:0 15px}
+
+      .hero-card{
+        grid-template-columns:1fr 1fr;
+        padding:18px 20px;
+        border-radius:26px;
+      }
+      .metric{padding:14px 0}
+      .metric strong{font-size:22px}
+      .metric span{font-size:13px;line-height:1.4;display:block;margin-top:3px}
+
+      section{padding:42px 0}
+      .section-head{flex-direction:column;gap:10px;align-items:flex-start;margin-bottom:20px}
+      .section-head h2{font-size:29px}
+      .section-head p{font-size:15px}
+      .cards{grid-template-columns:1fr;gap:12px}
+      .cards .card:last-child{grid-column:auto}
+      .card{padding:20px;border-radius:22px}
+      .card p,.job ul{font-size:15px}
+      .timeline{gap:12px}
+      .job{padding:19px;border-radius:22px}
+      .job h3{font-size:20px}
+      .skills{gap:8px}
+      .skill{font-size:13px;padding:8px 11px;border-radius:12px}
+      .contact{flex-direction:column;padding:24px;border-radius:24px}
+      .contact h2{font-size:26px}
+      .contact .cta{width:100%;display:grid;grid-template-columns:1fr}
+      .contact .btn{width:100%}
+
+      .paint{opacity:.62}
+      .paint.p1{width:290px;right:-145px;top:120px}
+      .paint.p2{width:285px;left:-145px;top:620px}
+      .paint.p3{width:250px;right:-120px;top:1200px}
+      .paint.p4{width:280px;left:-120px;bottom:140px}
+    }
+
+    @media(max-width:430px){
+      .wrap{width:calc(100% - 22px)}
+      .brand{font-size:13px}
+      .header-controls{gap:7px}
+      .lang-switch label{min-width:37px;height:32px;padding:0 7px}
+      .mobile-menu summary{width:40px;height:40px;border-radius:13px}
+      h1{font-size:40px}
+      .lead{font-size:16px}
+      .hero .cta{display:grid;grid-template-columns:1fr}
+      .hero .cta .btn{width:100%}
+      .hero-card{grid-template-columns:1fr;padding:16px 18px}
+      .metric{border-bottom:1px solid rgba(41,75,134,.10)!important}
+      .metric:last-child{border-bottom:0!important}
+      .section-head h2{font-size:27px}
+      .contact h2{font-size:24px}
+    }
+  
+    /* mobile viewport hard-fix */
+    html, body, .site {
+      width:100%;
+      max-width:100%;
+      overflow-x:hidden;
+    }
+    .site, main, section, header, footer {
+      max-width:100vw;
+    }
+    .wrap{
+      max-width:100%;
+    }
+    .paint{
+      overflow:hidden;
+    }
+
+    @media(max-width:720px){
+      body{
+        width:100vw;
+        max-width:100vw;
+        overflow-x:hidden;
+      }
+      .site{
+        width:100vw;
+        max-width:100vw;
+        overflow-x:hidden;
+      }
+      .wrap{
+        width:auto;
+        max-width:none;
+        margin-left:14px;
+        margin-right:14px;
+      }
+      .nav{
+        width:100vw;
+        max-width:100vw;
+      }
+      .nav-inner{
+        width:auto;
+        margin-left:14px;
+        margin-right:14px;
+      }
+      .header-controls{
+        flex-shrink:0;
+      }
+
+      /* keep all paint strokes within visual viewport */
+      .paint{
+        max-width:70vw;
+        overflow:visible;
+      }
+      .paint.p1{width:240px;right:-78px;top:120px}
+      .paint.p2{width:230px;left:-82px;top:620px}
+      .paint.p3{width:210px;right:-72px;top:1180px}
+      .paint.p4{width:230px;left:-76px;bottom:140px}
+
+      .hero-grid,
+      .cards,
+      .timeline,
+      .contact,
+      .hero-card{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+      }
+
+      .hero-grid > *,
+      .cards > *,
+      .timeline > *,
+      .contact > *,
+      .hero-card > *{
+        min-width:0;
+        max-width:100%;
+      }
+
+      h1,
+      .lead,
+      .section-head p,
+      .job li,
+      .skill,
+      .contact p{
+        overflow-wrap:anywhere;
+        word-break:normal;
+      }
+
+      .mobile-nav{
+        width:min(260px, calc(100vw - 28px));
+        max-width:calc(100vw - 28px);
+      }
+    }
+
+    @media(max-width:430px){
+      .wrap{
+        margin-left:11px;
+        margin-right:11px;
+      }
+      .nav-inner{
+        margin-left:11px;
+        margin-right:11px;
+      }
+      .brand{
+        font-size:13px;
+        max-width:38vw;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+      .header-controls{
+        gap:6px;
+      }
+      .lang-switch label{
+        min-width:36px;
+        height:32px;
+        padding:0 6px;
+      }
+      .mobile-menu summary{
+        width:40px;
+        height:40px;
+      }
+      h1{
+        font-size:38px;
+        line-height:1.03;
+      }
+      .hero{
+        padding-top:40px;
+      }
+      .hero-card{
+        padding:15px 16px;
+      }
+      .contact{
+        padding:20px;
+      }
+      .contact h2{
+        font-size:22px;
+        line-height:1.2;
+      }
+      .skill{
+        max-width:100%;
+        white-space:normal;
+      }
+    }
+
+</style>
+</head>
+<body>
+  <input class="lang-radio" type="radio" name="language" id="lang-ru" checked>
+  <input class="lang-radio" type="radio" name="language" id="lang-en">
+
+  <div class="site">
+
+    <div class="paint p1" aria-hidden="true">
+      <svg viewBox="0 0 420 250">
+        <path d="M18 140C51 84 112 49 177 39C256 27 343 48 387 86C345 101 291 111 240 124C184 139 143 170 83 174C44 176 3 165 18 140Z" fill="#F09BB7" fill-opacity=".78"/>
+        <path d="M44 154C96 104 171 85 240 85C300 86 351 103 392 118C331 132 275 140 218 149C166 158 97 180 44 154Z" fill="#7EA6EA" fill-opacity=".66"/>
+        <path d="M85 86C145 55 216 52 287 61C324 66 363 73 397 87C335 91 280 93 228 100C181 105 130 108 85 86Z" fill="#F8D2DE" fill-opacity=".84"/>
+      </svg>
+    </div>
+    <div class="paint p2" aria-hidden="true">
+      <svg viewBox="0 0 420 270">
+        <path d="M31 154C63 95 145 44 230 34C302 26 367 51 398 93C337 92 292 102 246 117C195 133 158 176 96 186C54 193 11 185 31 154Z" fill="#A9C2EE" fill-opacity=".66"/>
+        <path d="M47 178C104 143 171 126 240 126C299 127 349 136 384 153C321 160 267 166 216 177C170 187 110 203 47 178Z" fill="#F0A7BC" fill-opacity=".80"/>
+        <path d="M110 84C154 67 224 68 292 76C339 82 370 88 394 100C351 105 314 109 271 112C204 116 152 111 110 84Z" fill="#FAE3EA" fill-opacity=".88"/>
+      </svg>
+    </div>
+    <div class="paint p3" aria-hidden="true">
+      <svg viewBox="0 0 380 240">
+        <path d="M22 121C52 69 126 31 204 31C276 31 334 57 359 93C320 104 283 118 237 129C180 143 142 170 89 173C45 176 4 151 22 121Z" fill="#E9A5BB" fill-opacity=".72"/>
+        <path d="M64 137C116 102 170 88 227 89C278 90 318 100 351 112C299 122 252 134 211 147C160 163 111 169 64 137Z" fill="#88ACE8" fill-opacity=".62"/>
+      </svg>
+    </div>
+    <div class="paint p4" aria-hidden="true">
+      <svg viewBox="0 0 430 260">
+        <path d="M32 144C65 83 145 46 224 41C296 36 366 63 401 103C350 110 310 121 266 135C209 154 169 188 107 193C57 197 12 180 32 144Z" fill="#9AB7EA" fill-opacity=".60"/>
+        <path d="M54 169C110 133 184 117 257 117C321 117 367 128 403 145C335 153 278 161 224 174C172 187 119 194 54 169Z" fill="#EEACC0" fill-opacity=".76"/>
+      </svg>
+    </div>
+
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top">EKATERINA<span>.</span>QA</a>
+
+        <div class="header-controls">
+          <div class="lang-switch" aria-label="Language switcher">
+            <label for="lang-ru">RU</label>
+            <label for="lang-en">EN</label>
+          </div>
+
+          <details class="mobile-menu" id="mobileMenu">
+            <summary aria-label="Open menu">
+              <span></span><span></span><span></span>
+            </summary>
+            <nav class="mobile-nav">
+              <a href="#about">
+                <span class="lang-ru">Обо мне</span><span class="lang-en">About</span>
+              </a>
+              <a href="#experience">
+                <span class="lang-ru">Опыт</span><span class="lang-en">Experience</span>
+              </a>
+              <a href="#skills">
+                <span class="lang-ru">Навыки</span><span class="lang-en">Skills</span>
+              </a>
+              <a href="#contact">
+                <span class="lang-ru">Контакты</span><span class="lang-en">Contact</span>
+              </a>
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <div class="eyebrow"><span class="dot"></span>QA Engineer · Backend · API · Data</div>
+            <h1>Ekaterina Perova<span class="soft">Quality in details, logic and data.</span></h1>
+
+            <p class="lead">
+              <span class="lang-ru">QA Engineer с 6+ годами опыта в продуктовых компаниях. Специализируюсь на backend и API testing, проверке данных, интеграциях и сложных транзакционных сценариях.</span>
+              <span class="lang-en">QA Engineer with 6+ years of experience in product companies. I specialize in backend and API testing, data validation, integrations, and complex transactional flows.</span>
+            </p>
+
+            <div class="cta">
+              <a class="btn primary" href="mailto:perova.en96@gmail.com">
+                <span class="lang-ru">Связаться со мной</span><span class="lang-en">Contact me</span>
+              </a>
+              <a class="btn secondary" href="https://linkedin.com/in/enpero">LinkedIn ↗</a>
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <div class="metric">
+              <strong><span class="lang-ru">6+ лет</span><span class="lang-en">6+ years</span></strong>
+              <span><span class="lang-ru">опыта в QA</span><span class="lang-en">of QA experience</span></span>
+            </div>
+            <div class="metric">
+              <strong>Backend & API</strong>
+              <span><span class="lang-ru">основная специализация</span><span class="lang-en">core specialization</span></span>
+            </div>
+            <div class="metric">
+              <strong>SQL & Data</strong>
+              <span><span class="lang-ru">сильная практика работы с данными</span><span class="lang-en">strong hands-on work with data</span></span>
+            </div>
+            <div class="metric">
+              <strong>End-to-end QA</strong>
+              <span><span class="lang-ru">от анализа требований до production verification</span><span class="lang-en">from requirements analysis to production verification</span></span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="wrap">
+          <div class="section-head">
+            <h2><span class="lang-ru">Обо мне</span><span class="lang-en">About me</span></h2>
+            <p>
+              <span class="lang-ru">Я занимаюсь качеством не только на уровне интерфейса: проверяю бизнес-логику, API, базы данных и взаимодействие между сервисами, исследую причины дефектов и сопровождаю фичи до релиза и проверки в production.</span>
+              <span class="lang-en">I focus on quality beyond the UI layer: I validate business logic, APIs, databases, and service interactions, investigate defects, and support features through release and production verification.</span>
+            </p>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <span class="tag">BACKEND</span>
+              <h3>API & integrations</h3>
+              <p><span class="lang-ru">REST, GraphQL, HTTP, интеграционное, негативное и функциональное тестирование.</span><span class="lang-en">REST, GraphQL, HTTP, integration, negative, and functional testing.</span></p>
+            </article>
+            <article class="card">
+              <span class="tag">DATA</span>
+              <h3>Data validation</h3>
+              <p><span class="lang-ru">SQL, MongoDB, проверка целостности данных и consistency между сервисами.</span><span class="lang-en">SQL, MongoDB, data integrity checks, and cross-service consistency validation.</span></p>
+            </article>
+            <article class="card">
+              <span class="tag">OWNERSHIP</span>
+              <h3>QA delivery</h3>
+              <p><span class="lang-ru">Анализ требований, риски, test planning, regression, release readiness и production verification.</span><span class="lang-en">Requirements analysis, risk identification, test planning, regression, release readiness, and production verification.</span></p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <div class="wrap">
+          <div class="section-head">
+            <h2><span class="lang-ru">Опыт</span><span class="lang-en">Experience</span></h2>
+            <p><span class="lang-ru">Ключевые роли и задачи, сфокусированные на backend, данных и качестве сложных продуктовых сценариев.</span><span class="lang-en">Key roles and responsibilities focused on backend systems, data, and quality across complex product scenarios.</span></p>
+          </div>
+
+          <div class="timeline">
+            <article class="job">
+              <div><div class="when">Sep 2023 — Present</div><div class="company">Brainrocket</div></div>
+              <div>
+                <h3>QA Engineer</h3>
+                <ul>
+                  <li><span class="lang-ru">Тестирование backend и API в нескольких продуктах со сложной сервисной архитектурой.</span><span class="lang-en">Testing backend functionality and APIs across multiple products with complex service architecture.</span></li>
+                  <li><span class="lang-ru">Проверка payment и transactional flows: balances, deposits, withdrawals, multi-currency.</span><span class="lang-en">Validating payment and transactional flows: balances, deposits, withdrawals, and multi-currency scenarios.</span></li>
+                  <li><span class="lang-ru">Валидация бизнес-логики и данных через API, SQL и межсервисные проверки.</span><span class="lang-en">Checking business logic and data through API, SQL, and cross-service validation.</span></li>
+                  <li><span class="lang-ru">Расследование дефектов через logs, DevTools, API responses и database queries.</span><span class="lang-en">Investigating defects using logs, DevTools, API responses, and database queries.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="job">
+              <div><div class="when">Feb 2022 — Sep 2023</div><div class="company">Skyeng</div></div>
+              <div>
+                <h3>QA Engineer</h3>
+                <ul>
+                  <li><span class="lang-ru">Глубокая работа с базами данных и проверкой data-layer logic.</span><span class="lang-en">Working deeply with databases and validating data-layer logic.</span></li>
+                  <li><span class="lang-ru">Поиск integration risks, пробелов в data model и противоречий в бизнес-логике до разработки.</span><span class="lang-en">Identifying integration risks, data-model gaps, and business-logic contradictions before development.</span></li>
+                  <li><span class="lang-ru">Root cause analysis повторяющихся data defects и улучшение процессов команды.</span><span class="lang-en">Performing root cause analysis for recurring data defects and introducing process improvements.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="job">
+              <div><div class="when">Jul 2020 — Dec 2021</div><div class="company">InterRAO</div></div>
+              <div>
+                <h3>QA Engineer</h3>
+                <ul>
+                  <li><span class="lang-ru">Построение test coverage для web-приложений с нуля.</span><span class="lang-en">Building test coverage for web applications from scratch.</span></li>
+                  <li><span class="lang-ru">REST API, backend logic и service integrations.</span><span class="lang-en">Testing REST APIs, backend logic, and service integrations.</span></li>
+                  <li><span class="lang-ru">UI automation на Java + Selenium, интеграция с Jenkins и Allure.</span><span class="lang-en">Developing Java UI automation with Selenium and integrating it with Jenkins and Allure.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="wrap">
+          <div class="section-head">
+            <h2><span class="lang-ru">Навыки & инструменты</span><span class="lang-en">Skills & tools</span></h2>
+            <p><span class="lang-ru">Стек, с которым работаю в повседневном QA-процессе.</span><span class="lang-en">The stack I use in day-to-day QA work.</span></p>
+          </div>
+          <div class="skills">
+            <span class="skill">REST API</span><span class="skill">GraphQL</span><span class="skill">HTTP</span>
+            <span class="skill">SQL</span><span class="skill">MongoDB</span><span class="skill">DBeaver</span>
+            <span class="skill">Postman</span><span class="skill">Browser DevTools</span><span class="skill">Sentry</span>
+            <span class="skill">Integration Testing</span><span class="skill">Regression Testing</span><span class="skill">Data Integrity</span>
+            <span class="skill">Root Cause Analysis</span><span class="skill">Authentication & Authorization</span><span class="skill">RBAC</span>
+            <span class="skill">JIRA</span><span class="skill">TestRail</span><span class="skill">Confluence</span>
+            <span class="skill">Git</span><span class="skill">GitLab</span><span class="skill">Java</span>
+            <span class="skill">Selenium</span><span class="skill">Jenkins</span><span class="skill">Allure</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="wrap">
+          <div class="contact">
+            <div>
+              <h2><span class="lang-ru">Открыта к профессиональному общению</span><span class="lang-en">Open to professional communication</span></h2>
+              <p>Limassol, Cyprus · Russian — Native · English — Intermediate</p>
+            </div>
+            <div class="cta">
+              <a class="btn primary" href="mailto:perova.en96@gmail.com">perova.en96@gmail.com</a>
+              <a class="btn secondary" href="https://t.me/qatya">@qatya</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">© 2026 Ekaterina Perova · QA Engineer</div>
+    </footer>
+  </div>
+
+<script>
+  (function () {
+    var menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+    var links = menu.querySelectorAll('.mobile-nav a');
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('click', function () {
+        menu.removeAttribute('open');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
